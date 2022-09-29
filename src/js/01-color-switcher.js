@@ -26,3 +26,8 @@ function getRandomHexColor() {
     clearInterval(timerId);
     console.log(`Interval with id ${timerId} has stopped!`);
   });
+
+
+
+  const shouldResolve = Math.random() > 0.3;
+console.log(shouldResolve);
