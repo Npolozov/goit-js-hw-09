@@ -20,24 +20,23 @@ function handleSubmit(event) {
   }
   
 for (let position = 0; position < amountInput; position += 1) {
-  createPromise(({position, delayInput}))
-  .then(({ position, delay }) => { 
+  createPromise(position, delay)
+  .then(({ position, delay }) => { setTimeout(() => {
     Notify.success(`✅ Fulfilled promise ${position} in ${delayInput}ms`);
-  }, delayInput += stepInput)
-  .catch(({ position, delay }) => {
-    Notify.failure(`❌ Rejected promise ${position} in ${delayInput}ms`);
-  }, delayInput += stepInput);
+  }, delayInput)
+  },)
+  .catch(({ position, delay }) => {  setTimeout(() => {Notify.failure(`❌ Rejected promise ${position} in ${delayInput}ms`);
+}, delayInput)
+  },); delayInput += stepInput;
 }
-function createPromise({position, delay}) {
+function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   return new Promise((resolve, reject) => {
-  setTimeout(() => {
     if (shouldResolve) {
       resolve({ position, delay });
     } else {
       reject({ position, delay });
     }
-  }, delayInput);
 });
 }
 };
