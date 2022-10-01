@@ -10,6 +10,7 @@ const hourssRef = document.querySelector('[data-hours]');
 const minutesRef = document.querySelector('[data-minutes]');
 const secondsRef = document.querySelector('[data-seconds]');
 
+let selectedTime = null;
 
 const options = {
     enableTime: true,
@@ -22,7 +23,7 @@ const options = {
         selectedDates[0] = new Date();
     } else {
       startBtn.disabled = false; 
-      selectedTime = selectedDates[0]; 
+      selectedTime = selectedDates[0].getTime(); 
     }
   },
 };
