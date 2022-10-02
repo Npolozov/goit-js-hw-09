@@ -9,38 +9,36 @@ formRef.addEventListener("submit", handleSubmit);
 function handleSubmit(event) {
   event.preventDefault(); 
 
-  const {
-    elements: { delay, step, amount }
-  } = event.currentTarget;
-  const delayInput = Number(delay.value);
-  const stepInput = Number(step.value);
-  const amountInput = Number(amount.value);
-  if (delayInput <= 0 || stepInput <= 0 || amountInput <= 0) {
+  let delay = Number(event.currentTarget.delay.value);
+  const step = Number(event.currentTarget.step.value);
+  const amount = Number(event.currentTarget.amount.value);
+  if (delay <= 0 || step <= 0 || amount <= 0) {
     return Notify.failure("Please fill in all the fields!");
   }
   
-for (let position = 0; position < amountInput; position += 1) {
+for (let position = 0; position < amount; position += 1) {
   createPromise(position, delay)
-  .then(({ position, delay }) => { setTimeout(() => {
-    Notify.success(`✅ Fulfilled promise ${position} in ${delayInput}ms`);
-  }, delayInput)
-  },)
-  .catch(({ position, delay }) => {  setTimeout(() => {Notify.failure(`❌ Rejected promise ${position} in ${delayInput}ms`);
-}, delayInput)
-  },); delayInput += stepInput;
+  .then(({ position, delay }) => { 
+    Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  })
+  .catch(({ position, delay }) => { 
+    Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  }); delay += step
 }
+}
+
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   return new Promise((resolve, reject) => {
-    if (shouldResolve) {
-      resolve({ position, delay });
-    } else {
-      reject({ position, delay });
-    }
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay)
 });
-}
 };
-
 
 
 
